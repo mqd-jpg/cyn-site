@@ -3,352 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TwoHearts | Wedding</title>
+    <title>Happy Monthsary</title>
     <meta
       name="description"
-      content="A romantic wedding invitation and story website inspired by the TwoHearts Colorlib template."
+      content="A romantic monthsary message page inspired by a TikTok-style love card."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwUEQp1qrK8w1Z5RrM2Yp8S+f1ZQ8SgF5w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <nav class="navbar container">
-        <a href="#home" class="brand">TwoHearts</a>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <div class="nav-links">
-          <a href="#home">Home</a>
-          <a href="#couple">Groom & Bride</a>
-          <a href="#story">Story</a>
-          <a href="#greetings">Greetings</a>
-          <a href="#people">People</a>
-          <a href="#venue">Where & When</a>
-          <a href="#rsvp">RSVP</a>
-          <a href="#gallery">Gallery</a>
-        </div>
-      </nav>
-    </header>
+    <div class="bg-image" aria-hidden="true"></div>
 
-    <main>
-      <section class="hero" id="home">
-        <div class="hero-overlay"></div>
-        <div class="hero-content container">
-          <p class="eyebrow">Save the Day</p>
-          <h1>Leonardo & Marianna</h1>
-          <p class="subhead">Are Getting Married</p>
-          <div class="countdown" aria-label="Wedding countdown">
-            <div class="time-box">
-              <span data-countdown="days">1691</span>
-              <small>Days</small>
-            </div>
-            <div class="time-box">
-              <span data-countdown="hours">05</span>
-              <small>Hours</small>
-            </div>
-            <div class="time-box">
-              <span data-countdown="minutes">10</span>
-              <small>Minutes</small>
-            </div>
-            <div class="time-box">
-              <span data-countdown="seconds">48</span>
-              <small>Seconds</small>
-            </div>
-          </div>
-        </div>
+    <div class="sparkles" aria-hidden="true">
+      <span>❤</span>
+      <span>❤</span>
+      <span>❤</span>
+      <span>❤</span>
+      <span>❤</span>
+    </div>
+
+    <main class="page-shell">
+      <button class="letter-envelope" type="button" aria-label="Open love letter">
+        <span class="envelope-top"></span>
+        <span class="envelope-front"></span>
+        <span class="envelope-label">Open Letter</span>
+      </button>
+
+      <section class="proposal-card" aria-label="Monthsary celebration card">
+        <div class="card-tag">TO MY LOVE</div>
+
+        <div class="heart-badge" aria-label="love symbol">❤</div>
+
+        <h1 class="hero-title">Happy Monthsary</h1>
+
+        <h2 class="proposal-text">
+          Every month with you feels like a beautiful dream,<br />
+          and every day with you makes my heart feel more at home.
+        </h2>
+
+        <button class="yes-btn" type="button">I Love You</button>
+
+        <p class="subtext">Thank you for being my favorite person, my safe place, and my sweetest forever.</p>
       </section>
 
-      <section class="intro container" id="couple">
-        <div class="section-header centered">
-          <span class="mini-title">Groom & Bride</span>
-          <h2>Our Love Story</h2>
-        </div>
-        <div class="couple-grid">
-          <article class="person-card groom">
-            <div class="image-frame">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"
-                alt="The groom"
-              />
-            </div>
-            <div class="card-text">
-              <h3>Leonardo</h3>
-              <p>
-                A thoughtful soul with a quiet smile, a generous heart, and a love for
-                all the little things that make life beautiful.
-              </p>
-            </div>
-          </article>
+      <div class="gallery-modal" aria-hidden="true">
+        <div class="gallery-backdrop" data-close="true"></div>
 
-          <div class="love-badge">
-            <i class="fa-solid fa-heart"></i>
+        <div class="gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+          <button class="gallery-close" type="button" aria-label="Close gallery">×</button>
+
+          <div class="gallery-header">
+            <span class="gallery-tag">Our Story</span>
+            <h3 id="galleryTitle">Forever in Pictures</h3>
           </div>
 
-          <article class="person-card bride">
-            <div class="image-frame">
-              <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80"
-                alt="The bride"
-              />
-            </div>
-            <div class="card-text">
-              <h3>Marianna</h3>
-              <p>
-                A gentle dreamer who fills every room with warmth, laughter, and a sense
-                of wonder that inspires everyone around her.
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="story section-bg" id="story">
-        <div class="container">
-          <div class="section-header centered">
-            <span class="mini-title">Our Story</span>
-            <h2>How We Met</h2>
-          </div>
-
-          <div class="story-timeline">
-            <article class="story-item">
-              <div class="story-date">2012</div>
-              <div class="story-content">
-                <h3>First Sight</h3>
-                <p>
-                  We met on a rainy afternoon, and somehow the whole world seemed to slow
-                  down the moment our eyes met.
-                </p>
-              </div>
-            </article>
-            <article class="story-item">
-              <div class="story-date">2015</div>
-              <div class="story-content">
-                <h3>First Date</h3>
-                <p>
-                  Coffee, laughter, and a long walk through the city became the beginning of
-                  everything we could ever imagine.
-                </p>
-              </div>
-            </article>
-            <article class="story-item">
-              <div class="story-date">2018</div>
-              <div class="story-content">
-                <h3>Proposal</h3>
-                <p>
-                  With a sunset sky and a ring in hand, he asked her to spend forever by his
-                  side, and she said yes with tears in her eyes.
-                </p>
-              </div>
-            </article>
-            <article class="story-item">
-              <div class="story-date">2026</div>
-              <div class="story-content">
-                <h3>Wedding Day</h3>
-                <p>
-                  We are finally here, ready to tie the knot and begin the next beautiful chapter
-                  of our love.
-                </p>
-              </div>
-            </article>
+          <div class="gallery-grid">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Couple together" />
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80" alt="Happy together" />
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80" alt="Date time" />
+            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80" alt="Sunset together" />
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80" alt="Smile and love" />
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80" alt="Loving moments" />
           </div>
         </div>
-      </section>
-
-      <section class="greetings container" id="greetings">
-        <div class="section-header centered">
-          <span class="mini-title">Greetings</span>
-          <h2>Words from Loved Ones</h2>
-        </div>
-        <div class="quote-grid">
-          <blockquote>
-            “Your love is an inspiration to all of us. Wishing you a lifetime of laughter,
-            adventure, and happiness.”
-            <cite>— Sarah & Michael</cite>
-          </blockquote>
-          <blockquote>
-            “A beautiful journey, a beautiful bond, and a beautiful future. May your home be
-            filled with endless joy.”
-            <cite>— Emma & Daniel</cite>
-          </blockquote>
-          <blockquote>
-            “Warm wishes for a love that grows deeper every day. May your wedding be the start of
-            a lovely forever.”
-            <cite>— Jessica & Luke</cite>
-          </blockquote>
-        </div>
-      </section>
-
-      <section class="people section-bg" id="people">
-        <div class="container">
-          <div class="section-header centered">
-            <span class="mini-title">People</span>
-            <h2>Meet the Family</h2>
-          </div>
-
-          <div class="people-grid">
-            <article class="person-mini">
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" alt="Father" />
-              <h3>John</h3>
-              <p>Father of the Groom</p>
-            </article>
-            <article class="person-mini">
-              <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80" alt="Mother" />
-              <h3>Rose</h3>
-              <p>Mother of the Bride</p>
-            </article>
-            <article class="person-mini">
-              <img src="https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=500&q=80" alt="Best man" />
-              <h3>Chris</h3>
-              <p>Best Man</p>
-            </article>
-            <article class="person-mini">
-              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80" alt="Bridesmaid" />
-              <h3>Julia</h3>
-              <p>Maid of Honor</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="gallery container" id="gallery">
-        <div class="section-header centered">
-          <span class="mini-title">Gallery</span>
-          <h2>Moments We Treasure</h2>
-        </div>
-        <div class="gallery-grid">
-          <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80" alt="Couple portrait" />
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80" alt="Couple holding hands" />
-          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80" alt="Couple walking" />
-          <img src="https://images.unsplash.com/photo-1529636799580-6d9d8f5e6f4c?auto=format&fit=crop&w=900&q=80" alt="Wedding celebration" />
-          <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80" alt="Romantic pose" />
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80" alt="Couple smiling" />
-        </div>
-      </section>
-
-      <section class="venue section-bg" id="venue">
-        <div class="container venue-wrap">
-          <div class="venue-details">
-            <div class="section-header">
-              <span class="mini-title">Where & When</span>
-              <h2>Wedding Details</h2>
-            </div>
-
-            <div class="info-list">
-              <div class="info-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <div>
-                  <h3>Location</h3>
-                  <p>203 Fake St. Mountain View, San Francisco, California, USA</p>
-                </div>
-              </div>
-
-              <div class="info-item">
-                <i class="fa-solid fa-clock"></i>
-                <div>
-                  <h3>Time</h3>
-                  <p>Saturday, 24 May 2026 at 10:00 AM</p>
-                </div>
-              </div>
-
-              <div class="info-item">
-                <i class="fa-solid fa-envelope"></i>
-                <div>
-                  <h3>Email</h3>
-                  <p>info@twohearts.com</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="rsvp-panel" id="rsvp">
-            <h3>RSVP</h3>
-            <form>
-              <div class="input-row">
-                <label>
-                  <span>Name</span>
-                  <input type="text" placeholder="Your name" />
-                </label>
-              </div>
-              <div class="input-row">
-                <label>
-                  <span>Email</span>
-                  <input type="email" placeholder="Your email" />
-                </label>
-              </div>
-              <div class="input-row">
-                <label>
-                  <span>Guests</span>
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </label>
-              </div>
-              <button type="submit">Send RSVP</button>
-            </form>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <h3>Twohearts</h3>
-          <p>Far far away, behind the word mountains, far from the countries.</p>
-        </div>
-
-        <div>
-          <h4>Links</h4>
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#couple">Groom & Bride</a></li>
-            <li><a href="#story">Story</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Services</h4>
-          <ul>
-            <li><a href="#venue">Organizer</a></li>
-            <li><a href="#venue">Venue</a></li>
-            <li><a href="#venue">Wedding Ceremony</a></li>
-            <li><a href="#venue">Accommodation</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Have a Question?</h4>
-          <ul>
-            <li>203 Fake St. Mountain View, San Francisco, California, USA</li>
-            <li><a href="tel:+23923929210">+2 392 3929 210</a></li>
-            <li><a href="mailto:info@yourdomain.com">info@yourdomain.com</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>Copyright © 2026 All rights reserved | This template is made with <i class="fa fa-heart"></i> by Colorlib</p>
-      </div>
-    </footer>
+    <div class="lightbox" aria-hidden="true">
+      <button class="lightbox-close" type="button" aria-label="Close image">×</button>
+      <img class="lightbox-image" src="" alt="Expanded memory" />
+      <p class="lightbox-caption"></p>
+    </div>
 
     <script src="script.js"></script>
   </body>

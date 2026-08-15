@@ -1,62 +1,72 @@
-const countdownDate = new Date("2026-05-24T10:00:00");
+const yesButton = document.querySelector(".yes-btn");
+const subtext = document.querySelector(".subtext");
+const envelope = document.querySelector(".letter-envelope");
+const pageShell = document.querySelector(".page-shell");
+const galleryModal = document.querySelector(".gallery-modal");
+const galleryClose = document.querySelector(".gallery-close");
+const galleryBackdrop = document.querySelector(".gallery-backdrop");
+const lightbox = document.querySelector(".lightbox");
+const lightboxImage = document.querySelector(".lightbox-image");
+const lightboxCaption = document.querySelector(".lightbox-caption");
+const lightboxClose = document.querySelector(".lightbox-close");
+const galleryImages = document.querySelectorAll(".gallery-grid img");
 
-function updateCountdown() {
-  const now = new Date();
-  const diff = countdownDate - now;
+if (envelope && pageShell) {
+  envelope.addEventListener("click", () => {
+    envelope.classList.toggle("open");
+    pageShell.classList.toggle("open");
+  });
+}
 
-  if (diff <= 0) {
-    document.querySelector('[data-countdown="days"]').textContent = "00";
-    document.querySelector('[data-countdown="hours"]').textContent = "00";
-    document.querySelector('[data-countdown="minutes"]').textContent = "00";
-    document.querySelector('[data-countdown="seconds"]').textContent = "00";
-    return;
+if (yesButton && subtext && pageShell) {
+  yesButton.addEventListener("click", () => {
+    yesButton.textContent = "Forever ❤️";
+    subtext.textContent = "I love you more every single day, my favorite person.";
+    yesButton.disabled = true;
+    yesButton.style.opacity = "0.95";
+    pageShell.classList.add("gallery-ready");
+    document.body.classList.add("gallery-open");
+  });
+}
+
+const closeGallery = () => {
+  if (pageShell) pageShell.classList.remove("gallery-ready");
+  document.body.classList.remove("gallery-open");
+  if (galleryModal) galleryModal.setAttribute("aria-hidden", "true");
+};
+
+const openLightbox = (src, alt) => {
+  if (!lightbox || !lightboxImage || !lightboxCaption) return;
+  lightboxImage.src = src;
+  lightboxImage.alt = alt;
+  lightboxCaption.textContent = alt;
+  lightbox.classList.add("is-open");
+  lightbox.setAttribute("aria-hidden", "false");
+};
+
+const closeLightbox = () => {
+  if (!lightbox) return;
+  lightbox.classList.remove("is-open");
+  lightbox.setAttribute("aria-hidden", "true");
+};
+
+if (galleryClose) galleryClose.addEventListener("click", closeGallery);
+if (galleryBackdrop) galleryBackdrop.addEventListener("click", closeGallery);
+if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+
+if (lightbox) {
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeLightbox();
+    closeGallery();
   }
+});
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  document.querySelector('[data-countdown="days"]').textContent = String(days).padStart(4, "0");
-  document.querySelector('[data-countdown="hours"]').textContent = String(hours).padStart(2, "0");
-  document.querySelector('[data-countdown="minutes"]').textContent = String(minutes).padStart(2, "0");
-  document.querySelector('[data-countdown="seconds"]').textContent = String(seconds).padStart(2, "0");
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-const navToggle = document.querySelector(".nav-toggle");
-const navLinks = document.querySelector(".nav-links");
-
-if (navToggle && navLinks) {
-  navToggle.addEventListener("click", () => {
-    const isOpen = navLinks.classList.toggle("open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  navLinks.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
-    });
-  });
-}
-
-const form = document.querySelector("form");
-if (form) {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const button = form.querySelector("button");
-    if (button) {
-      const original = button.textContent;
-      button.textContent = "Thanks for RSVP!";
-      button.disabled = true;
-      setTimeout(() => {
-        button.textContent = original;
-        button.disabled = false;
-        form.reset();
-      }, 1800);
-    }
-  });
-}
+galleryImages.forEach((image) => {
+  image.addEventListener("click", () => openLightbox(image.src, image.alt));
+});
