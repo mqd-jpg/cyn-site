@@ -21,7 +21,7 @@ if (envelope && pageShell) {
 if (yesButton && subtext && pageShell) {
   yesButton.addEventListener("click", () => {
     yesButton.textContent = "Forever ❤️";
-    subtext.textContent = "I love you more every single day, my favorite person.";
+    subtext.textContent = "I love you more every single day, Cyn.";
     yesButton.disabled = true;
     yesButton.style.opacity = "0.95";
     pageShell.classList.add("gallery-ready");
