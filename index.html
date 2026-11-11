@@ -4,279 +4,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#8bdcff">
-<title>Pixel Adventure</title>
+<title>Flappy Sky — Flappy Bird Style Game</title>
 <style>
-  :root { --ink:#26324a; --cream:#fff8dc; --pink:#ff7fa7; --blue:#63c7f2; }
-  * { box-sizing:border-box; }
-  html,body { margin:0; min-height:100%; background:linear-gradient(#b8efff,#e6fbff); color:var(--ink); font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif; }
-  body { display:flex; justify-content:center; align-items:center; padding:12px; }
-  .shell { width:min(100%,1000px); }
-  header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 2px 10px; }
-  h1 { font-size:clamp(20px,4vw,30px); margin:0; color:#29415e; text-shadow:2px 2px 0 white; letter-spacing:.3px; }
-  .subtitle { font-size:12px; color:#52728a; font-weight:700; }
-  .hud { display:flex; flex-wrap:wrap; gap:7px; justify-content:flex-end; }
-  .pill { background:#fffdf2; border:2px solid #54738b; border-radius:12px; padding:6px 10px; font-weight:900; box-shadow:0 3px 0 #54738b; font-size:13px; white-space:nowrap; }
-  .game-wrap { position:relative; overflow:hidden; border:4px solid #314d67; border-radius:18px; background:#91ddff; box-shadow:0 8px 0 #314d67,0 14px 25px #4e819944; }
-  canvas { display:block; width:100%; height:auto; aspect-ratio:16/9; image-rendering:pixelated; touch-action:none; }
-  .overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:18px; background:#18334b66; }
-  .panel { width:min(92%,430px); background:#fff8df; border:4px solid #344d65; border-radius:20px; padding:22px; text-align:center; box-shadow:0 7px 0 #344d65; }
-  .panel h2 { margin:0 0 8px; font-size:clamp(24px,5vw,36px); color:#e76b86; }
-  .panel p { margin:8px 0 16px; line-height:1.45; font-weight:650; color:#4a6072; }
-  button { border:3px solid #29445e; border-radius:13px; background:#ffcf5b; color:#293e55; padding:10px 18px; font:900 16px inherit; font-family:inherit; cursor:pointer; box-shadow:0 4px 0 #29445e; }
-  button:active { transform:translateY(3px); box-shadow:0 1px 0 #29445e; }
-  .secondary { background:#fff; margin-left:7px; }
-  .help { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:12px 4px 0; color:#45647b; font-size:13px; font-weight:700; }
-  .touch-controls { display:none; justify-content:space-between; align-items:center; gap:12px; padding:13px 3px 0; user-select:none; }
-  .move-group { display:flex; gap:10px; }
-  .touch-btn { width:62px; height:55px; border-radius:16px; background:#fff7d9dd; font-size:23px; padding:0; touch-action:none; }
-  .jump-btn { width:88px; background:#ffcf5bdd; }
-  @media (pointer:coarse) { .touch-controls { display:flex; } .help { font-size:11px; } }
-  @media(max-width:600px) { body{padding:8px;} header{align-items:flex-start; flex-direction:column;} .hud{justify-content:flex-start;} .pill{font-size:12px;padding:5px 8px;} .game-wrap{border-width:3px;border-radius:13px;} }
+:root{--ink:#29445d;--cream:#fff8dc}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;background:linear-gradient(#9be5ff,#e8fbff);color:var(--ink)}
+body{display:flex;justify-content:center;align-items:center;padding:14px}
+.shell{width:min(100%,850px)}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 2px 10px}
+h1{font-size:clamp(22px,4vw,32px);margin:0;text-shadow:2px 2px white}
+.sub{font-size:12px;font-weight:700;color:#52748b}
+.pill{background:#fffdf2;border:2px solid var(--ink);border-radius:12px;padding:7px 12px;font-weight:900;box-shadow:0 3px 0 var(--ink)}
+.frame{position:relative;overflow:hidden;border:4px solid var(--ink);border-radius:18px;box-shadow:0 8px 0 var(--ink),0 14px 25px #4e819944;background:#91ddff}
+canvas{display:block;width:100%;height:auto;aspect-ratio:4/3;touch-action:manipulation}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:#193a5266}
+.panel{width:min(92%,390px);padding:22px;background:#fff8df;border:4px solid var(--ink);border-radius:20px;text-align:center;box-shadow:0 7px 0 var(--ink)}
+.panel h2{font-size:clamp(25px,5vw,36px);margin:0 0 8px;color:#e76b86}
+.panel p{font-weight:700;line-height:1.45;color:#4a6072;margin:8px 0 16px}
+button{border:3px solid var(--ink);border-radius:13px;background:#ffcf5b;color:#293e55;padding:11px 18px;font:900 16px inherit;font-family:inherit;cursor:pointer;box-shadow:0 4px 0 var(--ink)}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.secondary{background:white;margin-left:7px}
+.help{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:13px 4px 0;font-size:13px;font-weight:700;color:#45647b}
+@media(max-width:560px){body{padding:8px}header{align-items:flex-start;flex-direction:column}.frame{border-width:3px;border-radius:13px}.help{font-size:11px}}
 </style>
 </head>
 <body>
 <div class="shell">
-  <header>
-    <div><h1>🌈 Pixel Adventure</h1><div class="subtitle">A tiny world full of big adventures!</div></div>
-    <div class="hud" aria-live="polite">
-      <div class="pill" id="levelHud">🌍 Level 1</div>
-      <div class="pill" id="coinHud">🪙 0</div>
-      <div class="pill" id="healthHud">❤️❤️❤️</div>
-      <div class="pill" id="checkpointHud">🏁 Start</div>
-    </div>
-  </header>
-  <div class="game-wrap">
-    <canvas id="game" width="960" height="540" aria-label="Pixel Adventure platform game"></canvas>
-    <div class="overlay" id="overlay">
-      <div class="panel">
-        <h2 id="panelTitle">Pixel Adventure</h2>
-        <p id="panelText">Run, jump, collect shiny coins, and reach the flag! Watch out for grumpy little slimes.</p>
-        <button id="mainButton">Start Adventure!</button>
-        <button class="secondary" id="restartButton">Restart</button>
-      </div>
-    </div>
+<header>
+ <div><h1>🐤 Flappy Sky</h1><div class="sub">Tap, flap, and fly through the pipes!</div></div>
+ <div class="pill" id="scoreHud">⭐ Score: 0 &nbsp; | &nbsp; 🏆 Best: 0</div>
+</header>
+<div class="frame">
+ <canvas id="game" width="800" height="600" aria-label="Flappy Sky game"></canvas>
+ <div class="overlay" id="overlay">
+  <div class="panel">
+   <h2 id="panelTitle">Flappy Sky</h2>
+   <p id="panelText">Help Pip the little bird fly between the pipes. Every pipe you pass earns a point. Don't bump into anything!</p>
+   <button id="mainButton">Start Flying!</button>
+   <button class="secondary" id="restartButton">Restart</button>
   </div>
-  <div class="touch-controls" aria-label="Touch controls">
-    <div class="move-group">
-      <button class="touch-btn" id="leftBtn" aria-label="Move left">◀</button>
-      <button class="touch-btn" id="rightBtn" aria-label="Move right">▶</button>
-    </div>
-    <button class="touch-btn jump-btn" id="jumpBtn" aria-label="Jump">JUMP ⤴</button>
-  </div>
-  <div class="help">
-    <span>⌨️ Move: A / D or ← / → &nbsp; Jump: W / ↑ / SPACE</span>
-    <span>📱 On mobile: use the buttons below the game</span>
-  </div>
+ </div>
+</div>
+<div class="help"><span>⌨️ Press SPACE, W, or ↑ to flap</span><span>📱 Tap anywhere on the game to flap</span></div>
 </div>
 <script>
-(() => {
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
-  const overlay = document.getElementById('overlay');
-  const panelTitle = document.getElementById('panelTitle');
-  const panelText = document.getElementById('panelText');
-  const mainButton = document.getElementById('mainButton');
-  const restartButton = document.getElementById('restartButton');
-  const levelHud = document.getElementById('levelHud');
-  const coinHud = document.getElementById('coinHud');
-  const healthHud = document.getElementById('healthHud');
-  const checkpointHud = document.getElementById('checkpointHud');
-
-  const levels = [
-    {
-      name:'Sunny Meadow', width:2300, start:{x:70,y:390}, checkpoint:1120,
-      platforms:[[0,470,500,70],[560,430,260,110],[880,390,270,150],[1220,450,330,90],[1630,410,260,130],[1970,470,330,70],[300,365,125,18],[700,315,130,18],[1020,275,130,18],[1450,335,120,18],[1780,300,120,18]],
-      coins:[[190,420],[335,315],[740,265],[930,340],[1065,225],[1300,400],[1485,285],[1715,360],[1815,250],[2070,420],[2170,420]],
-      enemies:[[630,394,90],[1320,414,110],[1740,374,90]]
-    },
-    {
-      name:'Mushroom Hills', width:2500, start:{x:65,y:390}, checkpoint:1140,
-      platforms:[[0,470,360,70],[420,420,230,120],[720,365,180,175],[970,420,260,120],[1300,465,280,75],[1640,405,220,135],[1930,350,180,190],[2180,460,320,80],[260,335,115,18],[535,290,120,18],[790,245,110,18],[1050,330,110,18],[1450,350,110,18],[1710,285,110,18],[1990,240,110,18]],
-      coins:[[165,420],[300,285],[575,240],[835,195],[1085,280],[1190,380],[1400,415],[1495,300],[1750,235],[2025,190],[2250,410],[2380,410]],
-      enemies:[[480,384,85],[1020,384,100],[1690,369,75],[2220,424,100]]
-    },
-    {
-      name:'Cloudtop Castle', width:2700, start:{x:60,y:390}, checkpoint:1320,
-      platforms:[[0,470,320,70],[390,425,180,115],[640,365,180,175],[900,420,200,120],[1180,355,180,185],[1440,460,260,80],[1770,400,200,140],[2050,340,190,200],[2320,430,380,110],[245,330,100,18],[490,290,100,18],[740,245,100,18],[1000,300,100,18],[1260,245,100,18],[1530,360,100,18],[1830,290,100,18],[2110,230,100,18],[2380,350,100,18]],
-      coins:[[125,420],[285,280],[530,240],[780,195],[1040,250],[1310,195],[1510,315],[1610,420],[1855,240],[2140,180],[2425,300],[2550,390]],
-      enemies:[[440,389,75],[930,384,100],[1510,424,100],[1810,364,90],[2370,394,110]]
-    }
-  ];
-
-  let levelIndex=0, world, player, coins, enemies, camera=0, score=0, lives=3;
-  let state='intro', lastTime=0, keys={}, touch={left:false,right:false,jump:false};
-  let checkpointReached=false, checkpointX=0, particles=[], invulnerable=0, levelMessage=0;
-  const gravity=0.58;
-
-  function loadLevel(index, atCheckpoint=false) {
-    const data=levels[index];
-    world={...data, platforms:data.platforms.map(p=>({x:p[0],y:p[1],w:p[2],h:p[3]}))};
-    const spawnX=atCheckpoint ? data.checkpoint : data.start.x;
-    const safePlatform = atCheckpoint ? data.platforms.find(p => spawnX >= p[0] && spawnX + 34 <= p[0] + p[2]) : null;
-    const spawnY = safePlatform ? safePlatform[1] - 48 : data.start.y;
-    player={x:spawnX,y:spawnY,w:34,h:48,vx:0,vy:0,onGround:false,facing:1};
-    checkpointX=data.start.x; checkpointReached=atCheckpoint;
-    coins=data.coins.map((c,i)=>({x:c[0],y:c[1],r:11,taken:false,phase:i*.8}));
-    enemies=data.enemies.map((e,i)=>({x:e[0],y:e[1],start:e[0],range:e[2],dir:i%2?1:-1,w:34,h:27,speed:1.05+i*.12,alive:true}));
-    camera=0; invulnerable=1.2; particles=[]; levelMessage=2;
-    updateHud();
+(()=>{
+ const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+ const overlay=document.getElementById('overlay'),title=document.getElementById('panelTitle'),message=document.getElementById('panelText');
+ const main=document.getElementById('mainButton'),restart=document.getElementById('restartButton'),hud=document.getElementById('scoreHud');
+ const groundY=H-62, bird={x:190,y:270,vy:0,r:18,rot:0};
+ let pipes=[],clouds=[],particles=[],score=0,best=0,state='ready',last=0,elapsed=0,spawnTimer=0;
+ const gravity=.34,flapPower=-6.6,pipeW=82,gap=172,speed=2.7;
+ try{best=Number(localStorage.getItem('flappySkyBest')||0)}catch(e){}
+ function hudUpdate(){hud.textContent=`⭐ Score: ${score}   |   🏆 Best: ${best}`}
+ function reset(){bird.y=270;bird.vy=0;bird.rot=0;pipes=[];particles=[];score=0;spawnTimer=0;elapsed=0;for(let i=0;i<3;i++)addPipe(470+i*290);hudUpdate()}
+ function panel(t,m,b='Play again'){title.textContent=t;message.textContent=m;main.textContent=b;overlay.style.display='flex'}
+ function begin(){if(state==='over'||state==='ready')reset();state='playing';overlay.style.display='none';flap()}
+ function flap(){if(state==='ready'){begin();return}if(state!=='playing')return;bird.vy=flapPower;bird.rot=-.38;burst(bird.x-8,bird.y,'#fff4a8',5)}
+ main.addEventListener('click',()=>{if(state==='over')begin();else begin()});
+ restart.addEventListener('click',()=>{reset();state='playing';overlay.style.display='none';flap()});
+ canvas.addEventListener('pointerdown',e=>{e.preventDefault();if(state==='ready')begin();else if(state==='playing')flap();else if(state==='over'){reset();state='playing';overlay.style.display='none';flap()}});
+ window.addEventListener('keydown',e=>{if([' ','arrowup','w'].includes(e.key.toLowerCase())){e.preventDefault();if(state==='ready')begin();else if(state==='playing')flap();else if(state==='over'){reset();state='playing';overlay.style.display='none';flap()}}});
+ function addPipe(x){let top=75+Math.random()*(groundY-gap-150);pipes.push({x,top,passed:false})}
+ function burst(x,y,color,n){for(let i=0;i<n;i++)particles.push({x,y,vx:(Math.random()-.5)*4,vy:(Math.random()-.5)*4,life:.5,color,size:2+Math.random()*4})}
+ function hit(){if(state!=='playing')return;state='over';burst(bird.x,bird.y,'#ff8a9c',18);panel('Flap-tastic try! 💫',`You scored ${score} point${score===1?'':'s'}! ${score>best?'A new personal best!':'Try again and beat your best score.'}`,'Fly again')}
+ function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+ function cloud(x,y,s){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(x,y,20*s,0,Math.PI*2);ctx.arc(x+22*s,y-9*s,27*s,0,Math.PI*2);ctx.arc(x+48*s,y,20*s,0,Math.PI*2);ctx.fill()}
+ function background(t){
+  let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#75d5ff');g.addColorStop(1,'#e2faff');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  cloud(60-(t*.012%950),100,.9);cloud(400-(t*.018%950),185,.7);cloud(760-(t*.01%950),80,1);
+  ctx.fillStyle='#a5e7a6';for(let i=0;i<6;i++){let x=i*170-(t*.025%170);ctx.beginPath();ctx.arc(x,groundY+4,95,Math.PI,0);ctx.fill()}
+  ctx.fillStyle='#fff0a9';ctx.beginPath();ctx.arc(680,105,38,0,Math.PI*2);ctx.fill();
+ }
+ function drawPipe(p){
+  const x=p.x, bottom=p.top+gap;
+  // upper pipe and lower pipe, with bright cartoon rims
+  roundRect(x,0,pipeW,p.top-18,7,'#39ae62');roundRect(x-7,p.top-25,pipeW+14,25,6,'#27944f');
+  roundRect(x,bottom+18,pipeW,groundY-bottom-18,7,'#39ae62');roundRect(x-7,bottom,pipeW+14,25,6,'#27944f');
+  ctx.fillStyle='#83e78a';ctx.fillRect(x+12,0,10,Math.max(0,p.top-30));ctx.fillRect(x+12,bottom+30,10,Math.max(0,groundY-bottom-30));
+  ctx.fillStyle='#d7ffd0';ctx.fillRect(x+5,p.top-19,pipeW-10,4);ctx.fillRect(x+5,bottom+5,pipeW-10,4);
+ }
+ function drawBird(t){
+  ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(bird.rot);
+  // tail, body, wing, beak, eye
+  ctx.fillStyle='#f5a64e';ctx.beginPath();ctx.moveTo(-15,2);ctx.lineTo(-29,-7);ctx.lineTo(-25,9);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#ffcf58';ctx.beginPath();ctx.ellipse(0,0,21,17,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#d58c35';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5a64e';ctx.beginPath();ctx.ellipse(-6,5,10,6,Math.sin(t/100)*.35,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#ff8b55';ctx.beginPath();ctx.moveTo(16,-2);ctx.lineTo(31,3);ctx.lineTo(16,8);ctx.closePath();ctx.fill();
+  ctx.fillStyle='white';ctx.beginPath();ctx.arc(9,-7,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#26364b';ctx.beginPath();ctx.arc(11,-7,2.8,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+ }
+ function drawGround(t){
+  ctx.fillStyle='#d9ad70';ctx.fillRect(0,groundY,W,H-groundY);
+  ctx.fillStyle='#65c95c';ctx.fillRect(0,groundY,W,13);
+  ctx.fillStyle='#43aa4f';for(let x=-(t*.1%32);x<W;x+=32)ctx.fillRect(x,groundY+13,17,5);
+  ctx.fillStyle='#f5d59a';for(let x=10;x<W;x+=55)ctx.fillRect(x,groundY+31,18,5);
+ }
+ function render(t){
+  background(t);pipes.forEach(drawPipe);drawGround(t);drawBird(t);
+  particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life*2);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.size,p.size)});ctx.globalAlpha=1;
+  if(state==='ready'){ctx.fillStyle='#fff';ctx.font='bold 20px Trebuchet MS';ctx.textAlign='center';ctx.fillText('TAP OR PRESS SPACE TO FLY!',W/2,390)}
+ }
+ function update(dt,t){
+  if(state==='playing'){
+   elapsed+=dt;spawnTimer+=dt;
+   bird.vy+=gravity;bird.y+=bird.vy;bird.rot=Math.min(.9,Math.max(-.45,bird.vy*.075));
+   if(spawnTimer>1.75){addPipe(W+30);spawnTimer=0}
+   for(const p of pipes){
+    p.x-=speed;
+    if(!p.passed&&p.x+pipeW<bird.x){p.passed=true;score++;if(score>best){best=score;try{localStorage.setItem('flappySkyBest',best)}catch(e){}}hudUpdate()}
+    const bx=bird.x,by=bird.y,r=bird.r;
+    if(bx+r>p.x&&bx-r<p.x+pipeW&&(by-r<p.top||by+r>p.top+gap))hit();
+   }
+   pipes=pipes.filter(p=>p.x+pipeW>-20);
+   if(bird.y-bird.r<0||bird.y+bird.r>groundY)hit();
   }
-  function updateHud(){
-    levelHud.textContent=`🌍 Level ${levelIndex+1}`;
-    coinHud.textContent=`🪙 ${score}`;
-    healthHud.textContent='❤️'.repeat(Math.max(0,lives))+'🖤'.repeat(3-Math.max(0,lives));
-    checkpointHud.textContent=checkpointReached?'🚩 Checkpoint':'🏁 Start';
-  }
-  function showPanel(title,text,button='Play again'){
-    panelTitle.textContent=title; panelText.textContent=text; mainButton.textContent=button;
-    overlay.style.display='flex';
-  }
-  function hidePanel(){overlay.style.display='none';}
-  function startGame(){ if(state==='intro'||state==='over'||state==='won'){score=0;lives=3;levelIndex=0;loadLevel(0);} state='playing';hidePanel(); }
-  function restart(){score=0;lives=3;levelIndex=0;loadLevel(0);state='playing';hidePanel();}
-  mainButton.addEventListener('click',()=>{ if(state==='won') restart(); else startGame(); });
-  restartButton.addEventListener('click',restart);
-
-  function setButton(id, prop){
-    const el=document.getElementById(id);
-    const down=e=>{e.preventDefault();touch[prop]=true;};
-    const up=e=>{e.preventDefault();touch[prop]=false;};
-    el.addEventListener('pointerdown',down);
-    ['pointerup','pointercancel','pointerleave'].forEach(ev=>el.addEventListener(ev,up));
-  }
-  setButton('leftBtn','left'); setButton('rightBtn','right'); setButton('jumpBtn','jump');
-  window.addEventListener('keydown',e=>{
-    const k=e.key.toLowerCase();
-    if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();
-    keys[k]=true;
-    if((k===' '||k==='arrowup'||k==='w')&&!e.repeat) jump();
-    if((state==='intro'||state==='over'||state==='won')&&(k==='enter')) startGame();
-  });
-  window.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false;});
-  function jump(){ if(state==='playing'&&player.onGround){player.vy=-12.8;player.onGround=false; puff(player.x+player.w/2,player.y+player.h,'#ffffff',5);} }
-
-  function rects(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
-  function puff(x,y,color,n=6){for(let i=0;i<n;i++)particles.push({x,y,vx:(Math.random()-.5)*4,vy:-Math.random()*3-1,life:.5,color,size:3+Math.random()*4});}
-  function hurt(){
-    if(invulnerable>0)return;
-    lives--; updateHud(); invulnerable=1.6; puff(player.x+player.w/2,player.y+20,'#ff8095',12);
-    if(lives<=0){state='over';showPanel('Oh no! 💫','Your adventure paused. You collected '+score+' coins. Give it another try!','Try again');return;}
-    player.x=checkpointX;player.y=world.start.y;player.vx=0;player.vy=0;camera=Math.max(0,player.x-300);
-  }
-  function update(dt){
-    if(state!=='playing')return;
-    dt=Math.min(dt,.033);
-    const left=keys['arrowleft']||keys['a']||touch.left;
-    const right=keys['arrowright']||keys['d']||touch.right;
-    if((keys['arrowup']||keys['w']||keys[' ']||touch.jump)&&player.onGround)jump();
-    const accel=.72;
-    if(left){player.vx-=accel;player.facing=-1;}
-    if(right){player.vx+=accel;player.facing=1;}
-    if(!left&&!right)player.vx*=.78;
-    player.vx=Math.max(-5.1,Math.min(5.1,player.vx));
-    player.x+=player.vx; player.x=Math.max(0,Math.min(world.width-player.w,player.x));
-    player.vy+=gravity; player.vy=Math.min(player.vy,14);
-    const oldY=player.y; player.y+=player.vy; player.onGround=false;
-    for(const p of world.platforms){
-      if(player.x+player.w>p.x&&player.x<p.x+p.w&&oldY+player.h<=p.y+8&&player.y+player.h>=p.y&&player.vy>=0){
-        player.y=p.y-player.h;player.vy=0;player.onGround=true;
-      }
-    }
-    if(player.y>H+100)hurt();
-    if(player.x>world.checkpoint&&!checkpointReached){checkpointReached=true;checkpointX=world.checkpoint;puff(checkpointX,390,'#ffe06a',18);updateHud();levelMessage=2.5;}
-    for(const c of coins){if(!c.taken&&Math.hypot(player.x+player.w/2-c.x,player.y+player.h/2-c.y)<27){c.taken=true;score++;updateHud();puff(c.x,c.y,'#ffdf5d',8);}}
-    for(const e of enemies){
-      if(!e.alive)continue;
-      e.x+=e.dir*e.speed;
-      if(e.x<e.start-e.range/2||e.x>e.start+e.range/2)e.dir*=-1;
-      if(rects(player,e)){
-        if(player.vy>1&&player.y+player.h-e.y<18){e.alive=false;player.vy=-8;puff(e.x+15,e.y,'#a4e66e',12);}
-        else hurt();
-      }
-    }
-    // The flag is the finish point for each level.
-    if(player.x+player.w>world.width-95){
-      if(levelIndex<levels.length-1){levelIndex++;loadLevel(levelIndex);levelMessage=3;}
-      else{state='won';showPanel('You did it! 🏆','You conquered all three worlds and collected '+score+' coins. What an adventure!','Play again');}
-    }
-    camera=Math.max(0,Math.min(world.width-W,player.x-W*.38));
-    invulnerable=Math.max(0,invulnerable-dt);levelMessage=Math.max(0,levelMessage-dt);
-    particles=particles.filter(p=>p.life>0);
-    for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.life-=dt;}
-  }
-
-  function rounded(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
-  function drawCloud(x,y,s=1){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(x,y,22*s,0,Math.PI*2);ctx.arc(x+23*s,y-10*s,28*s,0,Math.PI*2);ctx.arc(x+50*s,y,21*s,0,Math.PI*2);ctx.fill();}
-  function drawBackground(){
-    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#79d5ff');g.addColorStop(1,'#d4f6ff');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    for(let i=0;i<7;i++){let x=((i*230-camera*.22)%(W+180)+W+180)%(W+180)-60;drawCloud(x,75+(i%3)*45,.8+(i%2)*.25);}
-    ctx.fillStyle='#9ce6a5';
-    for(let i=0;i<8;i++){let x=((i*190-camera*.42)%(W+220)+W+220)%(W+220)-100;ctx.beginPath();ctx.arc(x,480,100,Math.PI,0);ctx.fill();}
-    ctx.fillStyle='#fff4bf';ctx.beginPath();ctx.arc(820,95,38,0,Math.PI*2);ctx.fill();
-  }
-  function drawPlatform(p){
-    const x=p.x-camera;
-    if(x+p.w<0||x>W)return;
-    rounded(x,p.y,p.w,p.h,8,'#9b6746');
-    rounded(x,p.y,p.w,13,7,'#63c95e');
-    ctx.fillStyle='#3ea84c';for(let i=8;i<p.w-8;i+=28)ctx.fillRect(x+i,p.y+10,13,4);
-    ctx.fillStyle='#c28a5d';for(let i=15;i<p.w-10;i+=48)ctx.fillRect(x+i,p.y+29,8,7);
-  }
-  function drawCoin(c,time){
-    if(c.taken)return;const x=c.x-camera,y=c.y+Math.sin(time*4+c.phase)*4;
-    ctx.fillStyle='#d99025';ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#ffe36a';ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#fff7b4';ctx.fillRect(x-3,y-6,3,10);
-  }
-  function drawEnemy(e){
-    if(!e.alive)return;const x=e.x-camera,y=e.y;
-    rounded(x,y+5,e.w,e.h-5,11,'#6eae58');
-    ctx.fillStyle='#8cce6c';ctx.beginPath();ctx.arc(x+17,y+10,15,Math.PI,0);ctx.fill();
-    ctx.fillStyle='#fff';ctx.fillRect(x+8,y+12,7,8);ctx.fillRect(x+21,y+12,7,8);
-    ctx.fillStyle='#26324a';ctx.fillRect(x+11,y+15,3,4);ctx.fillRect(x+24,y+15,3,4);
-    ctx.fillStyle='#416b42';ctx.fillRect(x+7,y+25,7,3);ctx.fillRect(x+22,y+25,7,3);
-  }
-  function drawPlayer(){
-    const x=player.x-camera,y=player.y;
-    if(invulnerable>0&&Math.floor(performance.now()/90)%2===0)return;
-    // Little adventurer: boots, tunic, backpack, face and cap.
-    rounded(x+4,y+34,12,13,4,'#594b70');rounded(x+20,y+34,12,13,4,'#594b70');
-    rounded(x+5,y+18,25,22,6,'#f08a58');
-    rounded(x+1,y+21,8,17,4,'#e9a66f');rounded(x+27,y+21,8,17,4,'#e9a66f');
-    rounded(x+8,y+3,22,22,8,'#ffd7a8');
-    ctx.fillStyle='#513b39';ctx.fillRect(x+13,y+12,3,4);ctx.fillRect(x+24,y+12,3,4);
-    ctx.fillStyle='#fff';ctx.fillRect(x+14,y+12,1,1);ctx.fillRect(x+25,y+12,1,1);
-    rounded(x+6,y,27,9,5,'#e85f75');ctx.fillStyle='#ffd45e';ctx.fillRect(x+12,y+6,18,3);
-    rounded(x+26,y+24,9,13,3,'#7d75c8');
-    ctx.fillStyle='#fff';ctx.fillRect(x+16,y+22,7,2);
-  }
-  function drawFlag(){
-    const x=world.width-82-camera;
-    ctx.fillStyle='#6b5948';ctx.fillRect(x,365,7,105);
-    ctx.fillStyle='#ff6e88';ctx.beginPath();ctx.moveTo(x+7,368);ctx.lineTo(x+62,384);ctx.lineTo(x+7,402);ctx.closePath();ctx.fill();
-    ctx.fillStyle='#fff1ba';ctx.fillRect(x+17,380,12,7);
-  }
-  function render(time){
-    drawBackground();
-    ctx.save();
-    for(const p of world.platforms)drawPlatform(p);
-    for(const c of coins)drawCoin(c,time/1000);
-    for(const e of enemies)drawEnemy(e);
-    drawFlag();
-    // Checkpoint marker
-    const cp=world.checkpoint-camera;
-    if(checkpointReached){ctx.fillStyle='#fff';ctx.fillRect(cp-3,395,6,75);ctx.fillStyle='#ffcf5b';ctx.fillRect(cp+3,398,26,14);}
-    drawPlayer();
-    for(const p of particles){ctx.globalAlpha=Math.max(0,p.life*2);ctx.fillStyle=p.color;ctx.fillRect(p.x-camera,p.y,p.size,p.size);}ctx.globalAlpha=1;
-    ctx.restore();
-    if(levelMessage>0){ctx.globalAlpha=Math.min(1,levelMessage);rounded(330,22,300,42,14,'#fff8df');ctx.fillStyle='#40566b';ctx.font='bold 19px Trebuchet MS';ctx.textAlign='center';ctx.fillText(checkpointReached?'Checkpoint reached! 🚩':world.name,480,50);ctx.globalAlpha=1;}
-    if(state==='playing'){ctx.fillStyle='#38566e';ctx.font='bold 14px Trebuchet MS';ctx.textAlign='left';ctx.fillText('Find the flag ➜',18,28);}
-  }
-  function frame(t){const dt=(t-lastTime)/1000||0;lastTime=t;update(dt);render(t);requestAnimationFrame(frame);}
-  loadLevel(0);
-  showPanel('Pixel Adventure','Run, jump, collect shiny coins, and reach the flag! Watch out for grumpy little slimes.','Start Adventure!');
-  requestAnimationFrame(frame);
+  particles=particles.filter(p=>p.life>0);for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.life-=dt}
+ }
+ function loop(now){const dt=Math.min(.04,(now-last)/1000||0);last=now;update(dt,now);render(now);requestAnimationFrame(loop)}
+ reset();state='ready';panel('Flappy Sky','Help Pip the little bird fly between the pipes. Every pipe you pass earns a point. Don’t bump into anything!','Start Flying!');requestAnimationFrame(loop);
 })();
 </script>
 </body>
