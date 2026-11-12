@@ -345,14 +345,15 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'; import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'; import { getDatabase, ref, get, set, update, remove, onValue, runTransaction, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
         // Replace the placeholder values below with your Firebase web app config.
        
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBgh_YYgnSnRGOW4_5O6e9_tjdjPN167Xs",
   authDomain: "uno-card-game-daf8a.firebaseapp.com",
-  databaseURL: "https://uno-card-game-daf8a-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "uno-card-game-daf8a",
   storageBucket: "uno-card-game-daf8a.firebasestorage.app",
   messagingSenderId: "917999451708",
-  appId: "1:917999451708:web:f7d47c1e0ae15826e44d39"
+  appId: "1:917999451708:web:f7d47c1e0ae15826e44d39",
+  measurementId: "G-NDX3YN9RNY"
 };
 
         const $ = id => document.getElementById(id), colors = ['red', 'blue', 'green', 'yellow']; let db, uid, room, host = false, state, off, selected = null, wildId = null, name = '';

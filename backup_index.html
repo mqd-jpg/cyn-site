@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Card Party</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: #17152b;
+            color: #fff9ed;
+            font: 16px system-ui, sans-serif
+        }
+
+        .wrap {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px
+        }
+
+        .brand {
+            font-size: 30px;
+            font-weight: 1000;
+            margin-bottom: 18px
+        }
+
+        .brand b {
+            color: #ffd166
+        }
+
+        .panel {
+            background: #292542;
+            border: 1px solid #ffffff25;
+            border-radius: 20px;
+            padding: 22px;
+            margin: 12px 0;
+            box-shadow: 0 15px 40px #0004
+        }
+
+        .center {
+            max-width: 540px;
+            margin: 7vh auto
+        }
+
+        h1 {
+            margin: 0 0 8px
+        }
+
+        .muted,
+        .small {
+            color: #bdb8d2
+        }
+
+        .small {
+            font-size: 12px
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            border: 1px solid #ffffff30;
+            background: #17152b;
+            color: white;
+            margin: 8px 0 14px;
+            font: inherit
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 17px;
+            font-weight: 800;
+            cursor: pointer;
+            background: #ffd166;
+            color: #2b2340
+        }
+
+        button:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        .secondary {
+            background: #ffffff18;
+            color: white;
+            border: 1px solid #ffffff25
+        }
+
+        .danger {
+            background: #e84b5b;
+            color: white
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .row>* {
+            flex: 1
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 12px;
+            background: #ffffff12;
+            margin: 12px 0
+        }
+
+        .roomcode {
+            font-size: 26px;
+            letter-spacing: 5px;
+            color: #ffd166;
+            font-weight: 1000
+        }
+
+        .players,
+        .opponents {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0
+        }
+
+        .player,
+        .opp {
+            background: #ffffff12;
+            border: 1px solid #ffffff20;
+            border-radius: 12px;
+            padding: 12px;
+            min-width: 120px
+        }
+
+        .arena {
+            background: #17694e;
+            border: 5px solid #ffffff20;
+            border-radius: 24px;
+            min-height: 210px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin: 14px 0
+        }
+
+        .pile {
+            text-align: center
+        }
+
+        .pile label {
+            display: block;
+            font-size: 12px;
+            color: #d9f5e8;
+            margin-bottom: 8px
+        }
+
+        .card {
+            width: 70px;
+            height: 104px;
+            border: 4px solid white;
+            border-radius: 13px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 1000;
+            color: white;
+            text-shadow: 1px 2px 3px #0008;
+            box-shadow: 0 4px 9px #0005;
+            position: relative
+        }
+
+        .card:before {
+            content: attr(data-mark);
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 11px
+        }
+
+        .red {
+            background: #e83f4f
+        }
+
+        .blue {
+            background: #3479e8
+        }
+
+        .green {
+            background: #1ca66b
+        }
+
+        .yellow {
+            background: #eabf27;
+            color: #30280f;
+            text-shadow: none
+        }
+
+        .wild {
+            background: conic-gradient(#e83f4f 0 25%, #3479e8 0 50%, #eabf27 0 75%, #1ca66b 0)
+        }
+
+        .back {
+            background: linear-gradient(135deg, #46396b, #17152b);
+            color: #ffd166
+        }
+
+        .hand {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 15px 4px;
+            min-height: 135px
+        }
+
+        .hand .card {
+            flex: 0 0 70px;
+            cursor: pointer
+        }
+
+        .hand .card:hover,
+        .hand .selected {
+            transform: translateY(-10px);
+            outline: 3px solid #ffd166
+        }
+
+        .notice {
+            color: #ffd166;
+            min-height: 24px;
+            font-weight: 700
+        }
+
+        .colorpick {
+            display: flex;
+            gap: 12px;
+            margin: 10px 0
+        }
+
+        .colorpick button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid white;
+            padding: 0
+        }
+
+        .footer {
+            text-align: center;
+            color: #88839f;
+            font-size: 12px;
+            margin: 24px
+        }
+
+        @media(max-width:560px) {
+            .wrap {
+                padding: 12px
+            }
+
+            .arena {
+                gap: 30px;
+                min-height: 180px
+            }
+
+            .card {
+                width: 60px;
+                height: 90px
+            }
+
+            .hand .card {
+                flex-basis: 60px
+            }
+
+            .panel {
+                padding: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <div class="brand">CARD <b>PARTY</b> ✦ <span id="connection" class="small">Connecting…</span></div>
+        <section id="setup" class="panel center">
+            <h1>Ready to play?</h1>
+            <p class="muted">Create a room and invite friends, or join with a room code. 2–4 players, live multiplayer.
+            </p><label class="small">YOUR NAME</label><input id="nickname" maxlength="16" placeholder="Your nickname">
+            <div class="row"><button id="create">＋ Create room</button><button id="showJoin" class="secondary">Join a
+                    room</button></div>
+            <div id="joinBox" class="hidden"><label class="small">ROOM CODE</label><input id="roomInput" maxlength="5"
+                    placeholder="ABCDE"><button id="join" style="width:100%">Join game</button></div>
+            <div id="setupMsg" class="status hidden"></div>
+            <p class="small">No account needed. Share your room code with friends.</p>
+        </section>
+        <section id="lobby" class="panel hidden">
+            <div class="small">ROOM CODE · SHARE WITH FRIENDS</div>
+            <div class="row" style="align-items:center">
+                <div id="roomCode" class="roomcode">-----</div><button id="copy" class="secondary">Copy code</button>
+            </div>
+            <h2>Players <span id="count" class="small"></span></h2>
+            <div id="lobbyPlayers" class="players"></div>
+            <div id="lobbyStatus" class="status">Waiting…</div>
+            <div class="row"><button id="start">Start game</button><button id="leave" class="secondary">Leave
+                    room</button></div>
+        </section>
+        <section id="game" class="panel hidden">
+            <div class="row" style="align-items:center"><b>ROOM <span id="gameRoom"></span></b><b id="turn"
+                    style="color:#ffd166">Your turn</b><button id="gameLeave" class="secondary">Leave</button></div>
+            <div id="opponents" class="opponents"></div>
+            <div class="arena">
+                <div class="pile" id="drawPile"><label>DRAW PILE</label>
+                    <div class="card back">✦</div><small id="deckCount"></small>
+                </div>
+                <div class="pile"><label>TOP CARD</label>
+                    <div id="topCard"></div><small id="activeColor"></small>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div><b>Your hand <span id="handCount" class="small"></span></b>
+            <div id="hand" class="hand"></div>
+            <div class="row"><button id="play" disabled>Play selected</button><button id="draw" class="secondary">Draw
+                    card</button><button id="pass" class="secondary" disabled>Pass turn</button><button id="uno"
+                    class="danger">UNO!</button></div>
+            <div id="colorPicker" class="hidden">
+                <p class="small">Choose the next color:</p>
+                <div class="colorpick"><button data-c="red" style="background:#e83f4f"></button><button data-c="blue"
+                        style="background:#3479e8"></button><button data-c="green"
+                        style="background:#1ca66b"></button><button data-c="yellow" style="background:#eabf27"></button>
+                </div>
+            </div>
+            <div id="winner" class="status hidden"></div>
+        </section>
+        <div class="footer">An original casual card game · GitHub Pages + Firebase</div>
+    </main>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'; import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'; import { getDatabase, ref, get, set, update, remove, onValue, runTransaction, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+        // Replace the placeholder values below with your Firebase web app config.
+       
+const firebaseConfig = {
+  apiKey: "AIzaSyBgh_YYgnSnRGOW4_5O6e9_tjdjPN167Xs",
+  authDomain: "uno-card-game-daf8a.firebaseapp.com",
+  databaseURL: "https://uno-card-game-daf8a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "uno-card-game-daf8a",
+  storageBucket: "uno-card-game-daf8a.firebasestorage.app",
+  messagingSenderId: "917999451708",
+  appId: "1:917999451708:web:f7d47c1e0ae15826e44d39"
+};
+
+        const $ = id => document.getElementById(id), colors = ['red', 'blue', 'green', 'yellow']; let db, uid, room, host = false, state, off, selected = null, wildId = null, name = '';
+        const txt = c => c.type === 'number' ? c.value : ({ skip: '⊘', reverse: '⇄', draw2: '+2', wild: '✦', wild4: '+4' }[c.type]); const card = (color, type, value = null) => ({ id: Math.random().toString(36).slice(2, 10), color, type, value }); const shuffle = a => a.sort(() => Math.random() - .5);
+        function makeDeck() { let d = []; for (let c of colors) { d.push(card(c, 'number', 0)); for (let n = 1; n <= 9; n++)d.push(card(c, 'number', n), card(c, 'number', n)); for (let t of ['skip', 'reverse', 'draw2']) d.push(card(c, t), card(c, t)); } for (let i = 0; i < 4; i++)d.push(card(null, 'wild'), card(null, 'wild4')); return shuffle(d) }
+        function show(s) { ['setup', 'lobby', 'game'].forEach(x => $(x).classList.toggle('hidden', x !== s)) } function msg(s, bad = false) { $('setupMsg').textContent = s; $('setupMsg').classList.remove('hidden'); $('setupMsg').style.border = bad ? '1px solid #e84b5b' : '1px solid #28b879' } function escape(s) { return String(s).replace(/[&<>"']/g, x => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[x])) } function current(g) { return g.order[g.turn] } function advance(g, n = 1) { g.turn = (g.turn + g.dir * n + g.order.length * 10) % g.order.length } function drawOne(g, id) { if (!g.deck.length) { if (g.discard.length < 2) return; let top = g.discard.pop(); g.deck = shuffle(g.discard); g.discard = [top] } g.players[id].hand.push(g.deck.pop()) }
+        function playable(c, g) { let t = g.discard.at(-1); return c.type === 'wild' || c.type === 'wild4' || c.color === g.active || c.type === t.type && c.type !== 'number' || c.type === 'number' && t.type === 'number' && c.value === t.value }
+        function startState(players) { let d = makeDeck(), ps = {}, order = Object.keys(players); for (let id of order) ps[id] = { ...players[id], hand: d.splice(0, 7), saidUno: false }; let ix = d.findIndex(c => c.type === 'number'); let top = d.splice(ix, 1)[0]; return { status: 'playing', players: ps, order, turn: 0, dir: 1, deck: d, discard: [top], active: top.color, drawn: false, winner: null, notice: 'Game on! Match the color, number or symbol.' } }
+        async function init() { if (firebaseConfig.apiKey.startsWith('PASTE_')) { $('connection').textContent = 'Firebase setup needed'; $('create').disabled = $('showJoin').disabled = true; msg('Set up Firebase first. Follow the SETUP.txt included in the project ZIP.', true); return } try { let app = initializeApp(firebaseConfig); let auth = getAuth(app); db = getDatabase(app); uid = (await signInAnonymously(auth)).user.uid; $('connection').textContent = '● Connected' } catch (e) { $('connection').textContent = 'Connection error'; msg(e.message, true) } }
+        function enter() { show('lobby'); $('roomCode').textContent = room; $('gameRoom').textContent = room; if (off) off(); off = onValue(ref(db, 'rooms/' + room), s => { if (!s.exists()) { show('setup'); msg('This room no longer exists.', true); return } state = s.val(); host = state.host === uid; if (state.status === 'playing' || state.status === 'finished') { show('game'); renderGame() } else { show('lobby'); renderLobby() } }); onDisconnect(ref(db, `rooms/${room}/players/${uid}`)).remove() }
+        async function create() { if (!uid) return; name = ($('nickname').value.trim() || 'Player').slice(0, 16); room = Math.random().toString(36).slice(2, 7).toUpperCase(); try { await set(ref(db, 'rooms/' + room), { host: uid, status: 'lobby', players: { [uid]: { name, host: true } }, createdAt: Date.now() }); host = true; enter() } catch (e) { msg(e.message, true) } }
+        async function join() { if (!uid) return; name = ($('nickname').value.trim() || 'Player').slice(0, 16); let code = $('roomInput').value.trim().toUpperCase(); try { let r = ref(db, 'rooms/' + code), s = await get(r); if (!s.exists()) throw Error('Room not found. Check the code.'); let v = s.val(); if (v.status !== 'lobby') throw Error('This game has already started.'); if (Object.keys(v.players || {}).length >= 4) throw Error('Room is full.'); await update(ref(db, `rooms/${code}/players`), { [uid]: { name, host: false } }); room = code; host = false; enter() } catch (e) { msg(e.message, true) } }
+        function renderLobby() { let ids = Object.keys(state.players || {}); $('count').textContent = `(${ids.length}/4)`; $('lobbyPlayers').innerHTML = ids.map(id => `<div class="player"><b>${escape(state.players[id].name)} ${id === state.host ? '👑' : ''}</b><div class="small">${id === uid ? 'You' : 'Ready'}</div></div>`).join(''); $('start').disabled = !host || ids.length < 2; $('start').textContent = host ? 'Start game' : 'Waiting for host…'; $('lobbyStatus').textContent = host ? (ids.length > 1 ? 'Everyone is here. Start when ready!' : 'Invite friends to join.') : 'Waiting for the host to start…' }
+        $('start').onclick = async () => { if (host && Object.keys(state.players).length >= 2) await update(ref(db, 'rooms/' + room), startState(state.players)) };
+        function makeCardEl(c) { let e = document.createElement('div'); e.className = 'card ' + (c.color || 'wild'); e.dataset.mark = txt(c); e.textContent = txt(c); return e }
+        function renderGame() { if (!state.players?.[uid]) return; let me = state.players[uid], myTurn = current(state) === uid, top = state.discard.at(-1); $('turn').textContent = state.status === 'finished' ? 'Game finished' : myTurn ? '✨ YOUR TURN' : `${state.players[current(state)]?.name || 'Player'}’s turn`; $('opponents').innerHTML = state.order.filter(id => id !== uid).map(id => { let p = state.players[id]; return `<div class="opp"><b>${escape(p.name)}</b><div class="small">${p.hand.length} cards ${p.saidUno ? '· UNO!' : ''}</div></div>` }).join(''); $('topCard').innerHTML = ''; $('topCard').append(makeCardEl(top)); $('activeColor').textContent = 'Active: ' + state.active; $('deckCount').textContent = state.deck.length + ' cards'; $('handCount').textContent = `(${me.hand.length})`; $('hand').innerHTML = ''; me.hand.forEach(c => { let e = makeCardEl(c); if (c.id === selected) e.classList.add('selected'); e.onclick = () => { selected = selected === c.id ? null : c.id; renderGame() }; $('hand').append(e) }); $('play').disabled = !myTurn || !selected; $('draw').disabled = !myTurn || state.drawn; $('pass').disabled = !myTurn || !state.drawn; $('uno').disabled = !myTurn || me.hand.length !== 2; $('notice').textContent = state.notice || ''; $('winner').classList.toggle('hidden', state.status !== 'finished'); if (state.status === 'finished') $('winner').textContent = '🏆 ' + state.players[state.winner].name + ' wins! Create a new room to play again.'; $('colorPicker').classList.toggle('hidden', !wildId) }
+        async function transact(fn) { let rr = ref(db, 'rooms/' + room); try { let res = await runTransaction(rr, g => { if (!g || g.status !== 'playing' || current(g) !== uid) return; let p = g.players[uid]; if (fn(g, p) === false) return; return g }); if (!res.committed) $('notice').textContent = 'Move not accepted. Check the turn and try again.' } catch (e) { $('notice').textContent = e.message } }
+        async function play(color = null) { let c = state.players[uid].hand.find(x => x.id === selected); if (!c) return; if ((c.type === 'wild' || c.type === 'wild4') && !color) { wildId = c.id; $('colorPicker').classList.remove('hidden'); return } wildId = null; await transact((g, p) => { let i = p.hand.findIndex(x => x.id === c.id); if (i < 0 || !playable(c, g)) return false; if (c.type === 'wild4' && p.hand.some(x => x.color === g.active && x.type !== 'wild' && x.type !== 'wild4')) { g.notice = 'Wild +4 is only allowed when you have no card matching the active color.'; return false } p.hand.splice(i, 1); g.discard.push(c); g.active = color || c.color || g.active; g.drawn = false; g.notice = p.name + ' played ' + txt(c) + '.'; if (!p.hand.length) { g.status = 'finished'; g.winner = uid; g.notice = p.name + ' wins!'; return } let steps = 1; if (c.type === 'skip') steps = 2; if (c.type === 'reverse') { g.dir *= -1; if (g.order.length === 2) steps = 2 } if (c.type === 'draw2' || c.type === 'wild4') { let target = g.order[(g.turn + g.dir + g.order.length) % g.order.length]; let n = c.type === 'draw2' ? 2 : 4; for (let j = 0; j < n; j++)drawOne(g, target); g.notice = p.name + ' played ' + txt(c) + '. ' + g.players[target].name + ' draws ' + n + ' and misses a turn.'; steps = 2 } advance(g, steps); p.saidUno = false }); selected = null }
+        async function draw() { if (!state || current(state) !== uid || state.drawn) return; await transact((g, p) => { drawOne(g, uid); g.drawn = true; g.notice = 'You drew a card. Play it if you can, or pass.' }) }
+        $('play').onclick = () => play(); $('draw').onclick = draw; $('drawPile').onclick = draw; $('pass').onclick = () => transact((g, p) => { if (!g.drawn) return false; g.drawn = false; advance(g); g.notice = p.name + ' passed.' }); $('uno').onclick = () => transact((g, p) => { if (p.hand.length !== 2) return false; p.saidUno = true; g.notice = p.name + ' says UNO!' }); $('colorPicker').onclick = e => { if (e.target.dataset.c) play(e.target.dataset.c) };
+        async function leave() { if (off) { off(); off = null } try { let s = await get(ref(db, 'rooms/' + room)); if (s.exists()) { let v = s.val(), others = Object.keys(v.players || {}).filter(x => x !== uid); if (!others.length) await remove(ref(db, 'rooms/' + room)); else { await remove(ref(db, `rooms/${room}/players/${uid}`)); if (v.host === uid) await update(ref(db, 'rooms/' + room), { host: others[0] }) } } } catch { } room = null; state = null; selected = null; show('setup') }
+        $('create').onclick = create; $('showJoin').onclick = () => $('joinBox').classList.toggle('hidden'); $('join').onclick = join; $('copy').onclick = () => navigator.clipboard.writeText(room).then(() => $('copy').textContent = 'Copied!'); $('leave').onclick = leave; $('gameLeave').onclick = leave; init();
+    </script>
+</body>
+
+</html>
